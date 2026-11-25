@@ -1,58 +1,39 @@
 <!DOCTYPE html>
-<html lang="kk">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Шығындарды есепке алу / Учет расходов</title>
+  <title>Учет расходов</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <meta name="theme-color" content="#16a34a">
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; background-color: #f8fafc; }
     .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     h2 { text-align: center; color: #0f172a; margin-bottom: 5px; }
-    .lang-btn { float: right; padding: 5px 10px; cursor: pointer; background: #e2e8f0; border: none; border-radius: 4px; font-weight: bold; }
     input, button { width: 100%; padding: 10px; margin-top: 10px; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 4px; }
     button.add-btn { background: #16a34a; color: white; border: none; font-weight: bold; cursor: pointer; }
     .total-box { margin-top: 15px; padding: 10px; background: #f1f5f9; border-radius: 4px; font-weight: bold; text-align: right; color: #1e293b; }
     ul { list-style: none; padding: 0; margin-top: 15px; }
-    li { background: #ffffff; padding: 10px; border: 1px solid #e2e8f0; margin-bottom: 5px; border-radius: 4px; display: flex; justify-content: space-between; align-align: center; }
+    li { background: #ffffff; padding: 10px; border: 1px solid #e2e8f0; margin-bottom: 5px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
     .del-btn { background: #ef4444; color: white; border: none; width: auto; padding: 5px 10px; margin: 0; cursor: pointer; border-radius: 4px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <button class="lang-btn" onclick="toggleLang()" id="langBtn">RU</button>
-    <h2 id="title">Шығындарды есепке алу</h2>
+    <h2>Учет расходов</h2>
     
-    <input type="text" id="nameInput" placeholder="Шығын атауы">
-    <input type="number" id="amountInput" placeholder="Сомасы (₸)">
-    <button class="add-btn" onclick="addExpense()" id="addBtn">Қосу</button>
+    <input type="text" id="nameInput" placeholder="Название расхода">
+    <input type="number" id="amountInput" placeholder="Сумма (₸)">
+    <button class="add-btn" onclick="addExpense()">Добавить</button>
 
     <div class="total-box">
-      <span id="totalLabel">Жалпы сомасы:</span> <span id="totalSum">0</span> ₸
+      <span>Итоговая сумма:</span> <span id="totalSum">0</span> ₸
     </div>
 
     <ul id="expenseList"></ul>
   </div>
 
   <script>
-    let currentLang = 'kk';
-    const dict = {
-      kk: { title: "Шығындарды есепке алу", name: "Шығын атауы", amount: "Сомасы (₸)", add: "Қосу", del: "Жою", total: "Жалпы сомасы:" },
-      ru: { title: "Учет расходов", name: "Название расхода", amount: "Сумма (₸)", add: "Добавить", del: "Удалить", total: "Итоговая сумма:" }
-    };
-
-    function toggleLang() {
-      currentLang = currentLang === 'kk' ? 'ru' : 'kk';
-      document.getElementById('langBtn').textContent = currentLang === 'kk' ? 'RU' : 'KK';
-      document.getElementById('title').textContent = dict[currentLang].title;
-      document.getElementById('nameInput').placeholder = dict[currentLang].name;
-      document.getElementById('amountInput').placeholder = dict[currentLang].amount;
-      document.getElementById('addBtn').textContent = dict[currentLang].add;
-      document.getElementById('totalLabel').textContent = dict[currentLang].total;
-      render();
-    }
-
     function getExpenses() {
       return JSON.parse(localStorage.getItem('pwa_expenses') || '[]');
     }
@@ -97,7 +78,7 @@
         
         const btn = document.createElement('button');
         btn.className = 'del-btn';
-        btn.textContent = dict[currentLang].del;
+        btn.textContent = 'Удалить';
         btn.onclick = () => deleteExpense(item.id);
 
         li.appendChild(span);
